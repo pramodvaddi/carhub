@@ -2,7 +2,10 @@ package com.carhub.carhub_backend.controller;
 
 import com.carhub.carhub_backend.entity.Car;
 import com.carhub.carhub_backend.service.CarService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,56 +14,39 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarController {
 
-    private final CarService carService;
-
     @Autowired
-    public CarController(CarService carService) {
-        this.carService = carService;
-    }
+    private CarService carService;
 
-    // POST: Create new car
+    // POST - Create
     @PostMapping
-    public Car saveCar(@RequestBody Car car){
-        return carService.saveCar(car);
+    public ResponseEntity<Car> createCar(@Valid @RequestBody Car car) {
+        Car savedCar = carService.createCar(car);
+        return new ResponseEntity<>(savedCar, HttpStatus.CREATED);
     }
 
-    // GET: Get all cars
+    // GET - All cars
     @GetMapping
-    public List<Car> getAllCars(){
-        return carService.getAllCars();
+    public ResponseEntity<List<Car>> getAllCars() {
+        return ResponseEntity.ok(carService.getAllCars());
     }
 
-    // GET: Get car by id
+    // GET - Car by ID
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id){
-        return carService.getCarById(id);
-
+    public ResponseEntity<Car> getCarById(@PathVariable Long id) {
+        return ResponseEntity.ok(carService.getCarById(id));
     }
 
-    // PUT: Update car
+    // PUT - Update car by ID
     @PutMapping("/{id}")
-    public Car updateCar(@PathVariable Long id, @RequestBody Car updatedCar) {
-        Car existingCar = carService.getCarById(id);
-        if (existingCar != null) {
-            existingCar.setMake(updatedCar.getMake());
-            existingCar.setModel(updatedCar.getModel());
-            existingCar.setYear(updatedCar.getYear());
-            return carService.saveCar(existingCar);
-        } else {
-            return null; // Will handle better in Day 6 with exception handling
-        }
+    public ResponseEntity<Car> updateCar(@PathVariable Long id, @Valid @RequestBody Car car) {
+        return ResponseEntity.ok(carService.updateCar(id, car));
     }
 
-    // DELETE: Delete Car
+    // DELETE - Remove car
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id){
+    public ResponseEntity<String> deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
+        return ResponseEntity.ok("Car deleted successfully");
     }
-
-
-
-
-
-
-
 }
+

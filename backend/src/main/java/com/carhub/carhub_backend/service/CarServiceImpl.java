@@ -1,6 +1,7 @@
 package com.carhub.carhub_backend.service;
 
 import com.carhub.carhub_backend.entity.Car;
+import com.carhub.carhub_backend.exception.CarNotFoundException;
 import com.carhub.carhub_backend.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +28,25 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    // Get car by ID
     public Car getCarById(Long id) {
-        Optional<Car> optional = carRepository.findById(id);
-        return optional.orElse(null);
+        return carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException("Car with ID " + id + " not found"));
     }
 
     @Override
     public void deleteCar(Long id) {
         carRepository.deleteById(id);
 
+    }
+
+    @Override
+    public Car createCar(Car car) {
+        return carRepository.save(car);
+    }
+
+    @Override
+    public Car updateCar(Long id, Car car) {
+        return null;
     }
 }
