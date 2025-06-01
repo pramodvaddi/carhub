@@ -16,7 +16,6 @@ public class CarServiceImpl implements CarService {
         this.carRepository = carRepository;
     }
 
-
     @Override
     public Car saveCar(Car car) {
         return carRepository.save(car);
