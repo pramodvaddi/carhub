@@ -18,4 +18,6 @@ public interface CarService {
     Car createCar(@Valid Car car);
 
     Car updateCar(Long id, @Valid Car car);
+
+    void deleteCarById(Long id);
 }

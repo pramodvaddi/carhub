@@ -27,10 +27,6 @@ public class Car {
     @Column(name="Year")
     private int year;
 
-    @Positive(message = "Price must be greater than $100.00")
-    @Column(name="Price")
-    private double price;
-
 
     // No Args Constructor
     public Car(){
@@ -38,11 +34,11 @@ public class Car {
     }
 
     // Params Constructor
-    public Car(String make, String model, int year, double price) {
+    public Car(String make, String model, int year) {
         this.make = make;
         this.model = model;
         this.year = year;
-        this.price = price;
+
     }
 
     // Getters and Setters
@@ -78,13 +74,6 @@ public class Car {
         this.year = year;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 
     @Override
     public String toString() {
@@ -93,7 +82,6 @@ public class Car {
                 ", make='" + make + '\'' +
                 ", model='" + model + '\'' +
                 ", year=" + year +
-                ", price=" + price +
                 '}';
     }
 }

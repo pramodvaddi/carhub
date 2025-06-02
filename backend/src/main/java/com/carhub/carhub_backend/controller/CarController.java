@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cars")
+@CrossOrigin(origins = "*")
 public class CarController {
 
     @Autowired
@@ -45,8 +46,9 @@ public class CarController {
     // DELETE - Remove car
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCar(@PathVariable Long id) {
-        carService.deleteCar(id);
+        carService.deleteCarById(id); // call service method
         return ResponseEntity.ok("Car deleted successfully");
     }
+
 }
 
